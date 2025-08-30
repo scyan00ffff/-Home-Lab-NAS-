@@ -1,0 +1,35 @@
+My aim for this improvement is to be able to access the OMV NAS from anywhere on any network, not just my own. To do this requries the use of a VPN Tunnel such as Tail... which I will be using. However in my specific case my NAS is set up on a WiFi 
+network that i do not have control over as it is controlled by my housing provider. To overcome this issue I have purchased a GL-iNet SFT1200 router that will take an internet connection in and broadcast my own private network out. It also allows me 
+full access to its admin control panel to set up services like port forwarding and firewalls. 
+
+The new network diagram for my small home lab NAS is now: 
+
+                       [ HOUSING INTERNET ]
+                                │
+                      (Shared Network WAN)
+                                │
+                      [ Wall Ethernet Outlet ]
+                                │
+                                ▼
+                         ┌─────────────┐
+                         │   ROUTER    │
+                         │  (SFT1200)  │
+                         │             │
+                         └─────┬───────┘
+                               │
+           ┌──────────────────┴────────────────────┐
+           │                   │                    │
+     [Wi-Fi Signal]       [LAN Port 1]         [LAN Port 2]
+           │                   │                    │
+      Wireless Devices   ┌────────────┐        ┌─────────────┐
+     (Phones, Tablets,   │ Raspberry  │        │ Windows     │
+       Other PCs, etc.)  │   Pi NAS   │        │  Laptop     │
+                         │ (OMV NAS)  │        │             │
+                         └────────────┘        └─────────────┘
+I connected all devices as shown above and rebooted my PiNAS and tried to connect to its dashboard that I configured previously. However this was not possible and the PiNAS was not showing up as a device in the admin panel of the router either. 
+Troubleshooting this issue lead me to believe that OMV had created a static IP for the Pi when initally setting it up on the shared housing network, meaning that it would never show up under my new routers subnet. To fix this I needed to re-enable 
+DHCP to assign a new IP address in the routers subnet to the Pi, therefore making it accessible. 
+
+To do this I ran the command "sudo omv-firstaid" which brings up a GUI element where you can configure networking and turn on DHCP. 
+
+Once this was enabled the Pi assigned itself a new IP address in the new routers subnet which allowed me to see it in the routers admin panel as well as reconenct to the OMV admin panel and access my Shared folders. 
