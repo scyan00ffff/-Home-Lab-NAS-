@@ -30,6 +30,24 @@ I connected all devices as shown above and rebooted my PiNAS and tried to connec
 Troubleshooting this issue lead me to believe that OMV had created a static IP for the Pi when initally setting it up on the shared housing network, meaning that it would never show up under my new routers subnet. To fix this I needed to re-enable 
 DHCP to assign a new IP address in the routers subnet to the Pi, therefore making it accessible. 
 
-To do this I ran the command "sudo omv-firstaid" which brings up a GUI element where you can configure networking and turn on DHCP. 
+To do this I ran the command `sudo omv-firstaid` which brings up a GUI element where you can configure networking and turn on DHCP. 
 
 Once this was enabled the Pi assigned itself a new IP address in the new routers subnet which allowed me to see it in the routers admin panel as well as reconenct to the OMV admin panel and access my Shared folders. 
+
+Installing and setting up Tailscale:
+
+1. Create Tailscale account in a web browser 
+2. Use curl to setup the repo for tailscale 
+3. Update the system then install tailscale with `sudo apt get-install tailscale -y`
+4. Start the Tailscale service with `systemctl --now tailscaled`
+5. Authenticate to tailscale with `sudo tailscale up --ssh`. This will provide a login URL to open in a browser and sign in to your tailscale account to 
+add the device to your network 
+6. Check the tailscale IP, using `tailscale ip -4`, which should be in the format, `100.x.x.x`
+
+The PiNAS's shared folders are now accesible from any device on the tailscale network. Add more devices by downloading tailscale on them and signing in. 
+
+To actually access the shared folders on Windows and Linux we need to repeat the steps we did previously when setting up the shared folders but change the IP
+address of the network folders to the new Tailscale IP address.
+
+After this step I once again have access to my shared folders, however this time they are accessible even when not on my local network.
+
