@@ -34,6 +34,7 @@ To do this I ran the command `sudo omv-firstaid` which brings up a GUI element w
 
 Once this was enabled the Pi assigned itself a new IP address in the new routers subnet which allowed me to see it in the routers admin panel as well as reconenct to the OMV admin panel and access my Shared folders. 
 
+
 Installing and setting up Tailscale:
 
 1. Create Tailscale account in a web browser 
