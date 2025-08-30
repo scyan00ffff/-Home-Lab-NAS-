@@ -161,6 +161,8 @@ The shared drive will also streamline my workflow as there is no longer a need t
 
 To test this out I set the Vault folder location for Obsidian to a file in the shared file and edited some notes. The notes seamlessly updated on both devices. This PiNAS setup will save me a significant amount of money paying for a cloud subscription service for Obsidian.
 
+See Next Steps file for further improvements I made to this setup.
+
 
 
    
