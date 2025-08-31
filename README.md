@@ -31,13 +31,13 @@ Network Diagram:
 
 Initial Setup:
 
-Flash Raspberry Pi OS Bookworm Lite to a micro SD card using the Raspberry Pi imager, ensuring that you enable SSH and set the default hostname of the device to "raspberrypi", then install the SD card into the Pi and power it on. 
+Flash Raspberry Pi OS Bookworm Lite to a micro SD card using the Raspberry Pi imager, ensuring that you enable SSH and set the default hostname of the device to `raspberrypi`, then install the SD card into the Pi and power it on. 
 
 Installing and Upgrading the OS:
 
 As the OS is a Lite version this means it is headless and does not have GUI. The easiest way to setup the system will therefore be Via SSH. On a Linux machine this can be done by simply opening the terminal and typing "ssh raspberrypi.local" or if you know the IP address of the Pi, "ssh IPADDRESS". However for this setup I am using my windows machine so I will be using Putty in order to SSH into the Pi. 
 
-Initially to ensure the Pi has booted correctly I ran "ping rasberrypi.local" to make sure i received a response. 
+Initially to ensure the Pi has booted correctly I ran `ping rasberrypi.local` to make sure i received a response. 
 
 <img width="842" height="141" alt="image" src="https://github.com/user-attachments/assets/92aa73ef-97a6-4786-9fde-d829b6da98ca" />
 
@@ -48,11 +48,11 @@ Before installing any additional software it is best practice to run "sudo apt u
 Installing OpenMediaVault:
 
 Before installing the software we need to run a pre-install script that will ensure our ethernet connection stays persistent during the setup process.
-The script command is "wget -O - https://raw.githubusercontent.com/OpenMediaVault-Plugin-Developers/installScript/master/preinstall | sudo bash"
+The script command is `wget -O - https://raw.githubusercontent.com/OpenMediaVault-Plugin-Developers/installScript/master/preinstall | sudo bash`
 
 Once this script has finished running we need to reboot the Pi using "sudo reboot" 
 
-The next command installs OpenMediaVault: "wget -O - https://raw.githubusercontent.com/OpenMediaVault-Plugin-Developers/installScript/master/install | sudo bash" 
+The next command installs OpenMediaVault: `wget -O - https://raw.githubusercontent.com/OpenMediaVault-Plugin-Developers/installScript/master/install | sudo bash`
 
 I found that this process takes a long time, be prepared to wait a while. 
 
@@ -60,7 +60,7 @@ Once this process has finished running the Pi should automatically reboot, if co
 
 Configuring the Web Interface:
 
-With OpenMediaVault now up and running on the Pi we can connect to the web interface by navigating to "http://IPADDRESS" with "IPADDRESS" being the IP of your Pi. 
+With OpenMediaVault now up and running on the Pi we can connect to the web interface by navigating to `http://IPADDRESS` with `IPADDRESS` being the IP of your Pi. 
 
 This takes us to a page asking for login credentials, the defaults are: Username: admin, Password: openmediavault
 
@@ -78,7 +78,7 @@ To populate the dashboard with widgets, again select the icon of the person and 
 
 At this point it is time to mount the hard drive/storage device you will be using. I plugged a Seagate 2TB hard drive into my Pi and navigated to the drives tab on the left-hand side of the dashboard. However, my drive was not recognised so I decided to reboot the system, the startup process was extremely slow, however my drive was being recognised as I analysed the bootup logs. Back in the web interface though my drive was still not being recognised. I figured it could be a power issue as I was currently running; I upgraded the power supply and rebooted once again. 
 
-This time I managed to gain access to the web interface once more, however the drives section was stuck in a permanent load cycle, running "systemd-analyze blame" told me that the bootup was not yet finished even though I have access to the web interface. The dashboard also tells me that my CPU usage is sitting around 85-99%, therefore it may be a hardware limitation issue. 
+This time I managed to gain access to the web interface once more, however the drives section was stuck in a permanent load cycle, running `systemd-analyze blame` told me that the bootup was not yet finished even though I have access to the web interface. The dashboard also tells me that my CPU usage is sitting around 85-99%, therefore it may be a hardware limitation issue. 
 
 After rebooting the system multiple times I deduced that the reasons behind the slow boot times and unresponsive web interface were linked to the Seagate drive being underpowered and the Pi stuck in a cycle of trying to mount it. With this in mind i have removed the drive from the setup for now and instead installed a 32GB USB stick as a temporary solution. With this in place the system booted much faster and the drive was instantly recognised under the Storage > Disks tab on the dashboard. 
 
@@ -134,10 +134,10 @@ Creating a user:
 
 Mounting the network drive on windows:
 
-1. Open file explorer and go to "This PC"
-2. Click the three dots and select "Map Network Drive"
+1. Open file explorer and go to `This PC`
+2. Click the three dots and select `Map Network Drive`
 3. Choose a Letter for the Drive
-4. In the folder bar enter "\\YOURIP\YOURSHAREDFOLDERNAME"
+4. In the folder bar enter `\\YOURIP\YOURSHAREDFOLDERNAME`
 5. A popup will ask you for the user credentials you just created for the new user
 6. The shared drive will appear in file explorer
 
@@ -147,7 +147,7 @@ Mounting the network drive on Linux:
 
 1. Open file explorer
 2. Click other locations
-3. In the server box enter the IP in the format "smb://IPADDRESS/SHARENAME" and click connect
+3. In the server box enter the IP in the format `smb://IPADDRESS/SHARENAME` and click connect
 4. Login using the user credentials we set up
 5. The shared drive will now appear in the file explorer
 
@@ -245,6 +245,8 @@ MagicDNS URL.
 Now I can access the dashboard via its MagicDNS URL's remotely to check on the status of my PiNAS
 
 <img width="2459" height="1280" alt="image" src="https://github.com/user-attachments/assets/3e709da7-fa01-45f9-bbf5-7b3bdb2673cf" />
+
+<img width="354" height="50" alt="ascii-text-art (1)" src="https://github.com/user-attachments/assets/a0019394-6fb3-4540-8e3f-6269f0e16097" />
 
 Running these services about reaches the hardware limitations for the Pi 2B. My plan for it going forward is for it to act as a dedicated Obsidian vault host, allowing me to sync my notes to my two laptops and phone, free of charge or subscription. I have future plans to upgrade my home lab hardware to a mini PC to properly host OMV with a meaningfull amount of storage, alongside other proccses. 
 
