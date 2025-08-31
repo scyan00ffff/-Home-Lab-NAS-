@@ -164,6 +164,90 @@ To test this out I set the Vault folder location for Obsidian to a file in the s
 See Next Steps file for further improvements I made to this setup.
 
 
+<img width="347" height="60" alt="ascii-text-art" src="https://github.com/user-attachments/assets/31c85762-1168-4995-85eb-49cba946a5ba" />
+
+
+My aim for this improvement is to be able to access the OMV NAS from anywhere on any network, not just my own. To do this requries the use of a VPN Tunnel such as Tailacale which I will be using. However in my specific case my NAS is set up on a WiFi 
+network that i do not have control over as it is controlled by my housing provider. To overcome this issue I have purchased a GL-iNet SFT1200 router that will take an internet connection in and broadcast my own private network out. It also allows me 
+full access to its admin control panel to set up services like port forwarding and firewalls. 
+
+The new network diagram for my small home lab NAS is now: 
+
+                       [ HOUSING INTERNET ]
+                                │
+                      (Shared Network WAN)
+                                │
+                      [ Wall Ethernet Outlet ]
+                                │
+                                ▼
+                         ┌─────────────┐
+                         │   ROUTER    │
+                         │  (SFT1200)  │
+                         │             │
+                         └─────┬───────┘
+                               │
+           ┌──────────────────┴────────────────────┐
+           │                   │                    │
+     [Wi-Fi Signal]       [LAN Port 1]         [LAN Port 2]
+           │                   │                    │
+      Wireless Devices   ┌────────────┐        ┌─────────────┐
+     (Phones, Tablets,   │ Raspberry  │        │ Windows     │
+       Other PCs, etc.)  │   Pi NAS   │        │  Laptop     │
+                         │ (OMV NAS)  │        │             │
+                         └────────────┘        └─────────────┘
+I connected all devices as shown above and rebooted my PiNAS and tried to connect to its dashboard that I configured previously. However this was not possible and the PiNAS was not showing up as a device in the admin panel of the router either. Running an nmap scan for active devices on the subnet also didn't return the Pi.
+Troubleshooting this issue lead me to believe that OMV had created a static IP for the Pi when initally setting it up on the shared housing network, meaning that it would never show up under my new routers subnet as it was assigned permenantly to the previous network. To fix this I needed to re-enable 
+DHCP to assign a new IP address in the routers subnet to the Pi, therefore making it accessible. 
+
+To do this I ran the command `sudo omv-firstaid` which brings up a GUI element where you can configure networking and turn on DHCP. 
+
+Once this was enabled the Pi assigned itself a new IP address in the new routers subnet which allowed me to see it in the routers admin panel as well as reconnect to the OMV admin panel and access my Shared folders. 
+
+<img width="1292" height="498" alt="Screenshot 2025-08-30 230943" src="https://github.com/user-attachments/assets/f14aa95b-0440-4870-a135-9b800962237c" />
+
+Installing and setting up Tailscale:
+
+1. Create Tailscale account in a web browser 
+2. Use curl to setup the repo for tailscale 
+3. Update the system then install tailscale with `sudo apt get-install tailscale -y`
+4. Start the Tailscale service with `systemctl --now tailscaled`
+5. Authenticate to tailscale with `sudo tailscale up --ssh`. This will provide a login URL to open in a browser and sign in to your tailscale account to 
+add the device to your network 
+6. Check the tailscale IP, using `tailscale ip -4`, which should be in the format, `100.x.x.x`
+
+The PiNAS's shared folders are now accesible from any device on the tailscale network. Add more devices by downloading tailscale on them and signing in. 
+
+To actually access the shared folders on Windows and Linux we need to repeat the steps we did previously when setting up the shared folders but change the IP
+address of the network folders to the new Tailscale IP address.
+
+After this step I once again have access to my shared folders, however this time they are accessible by any of my devices that are connected to the tailscale network (tailnet), even when not on my local network.
+
+<img width="1198" height="709" alt="Screenshot 2025-08-30 230753" src="https://github.com/user-attachments/assets/b5fce16a-cf55-4a7e-a971-bb519135c7c4" />
+
+<img width="695" height="194" alt="Screenshot 2025-08-30 230813" src="https://github.com/user-attachments/assets/edd6447a-5fa6-464c-9763-64378484a763" />
+
+Now that the NAS is accesible anywhere I want it to have an easier to remember name than the IP address. I enabled magicDNS in my tailscale account
+and set the hostname of my device to an easy to remember one of my choosing. Now to access the dashboard you only have to type http://hostname into a browser.
+
+Finally to make sure that, in the case of a power cycle event, my NAS is still accessible I made sure tailscale was set to run on boot by checking:
+`systemctl status tailscaled` to check then `sudo systemctl enable tailscaled`. 
+
+Setting up system monitoring:
+
+I want to be able to monitor my system usage for the physical hardware and NAS remotely so I am setting up Netdata as a powerful monitor accessible via a 
+MagicDNS URL. 
+
+1. Install Netdata with  `bash <(curl -Ss https://my-netdata.io/kickstart.sh)`
+2. Configure Netdata to run on boot and start it
+3. Install OMV specific intergration with `sudo apt install netdata-plugin-openmediavault -y`
+4. Enable the service both on startup and immediately
+
+Now I can access the dashboard via its MagicDNS URL's remotely to check on the status of my PiNAS
+
+<img width="2459" height="1280" alt="image" src="https://github.com/user-attachments/assets/3e709da7-fa01-45f9-bbf5-7b3bdb2673cf" />
+
+Running these services about reaches the hardware limitations for the Pi 2B. My plan for it going forward is for it to act as a dedicated Obsidian vault host, allowing me to sync my notes to my two laptops and phone, free of charge or subscription. I have future plans to upgrade my home lab hardware to a mini PC to properly host OMV with a meaningfull amount of storage, alongside other proccses. 
+
 
    
 
