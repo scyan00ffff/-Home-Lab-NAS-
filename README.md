@@ -17,7 +17,7 @@ Network Diagram:
      │ 2B (NAS)      │   │                       │ (Wi-Fi/Eth)    │
      │  eth0 ────────┘   │                       └────────────────┘
      │  SMB/NFS/SSH      │
-     │  Hostname: PiNAS    │                     ┌────────────────┐
+     │  Hostname: PiNAS  │                       ┌────────────────┐
      └───────┬───────────┘                       │ Laptop B (Ubuntu)     
              │                                   │ (Wi-Fi/Eth)    │
              │ USB 2.0                           └────────────────┘
