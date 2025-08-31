@@ -1,4 +1,4 @@
-# -Home-Lab-NAS-
+# -Rasberry-Pi-NAS-
 
 This repo documents the process of setting up and hosting a piece of NAS software on a raspberry pi 2B. The aim of this project was to experiment with basic networking concepts while utilising an old device that was unused. It should allow me a shared storage space, accessible from multiple machines, in which to store useful files such as a folder of common ISO files that I use often on multiple physical machines when setting up other virtual machines. A secondary use of the NAS is to store the file structure for my Obsidian notes vault, allowing me to access and edit these with continuous changes from multiple devices, without having to pay a subscription fee. This is a begginer project and the hardware used is not very powerful. I am using this project to get an understanding of various concepts to then expand my homelab in the future with more powerful hardware. 
 
