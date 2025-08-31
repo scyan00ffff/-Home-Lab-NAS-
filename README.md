@@ -167,7 +167,7 @@ See Next Steps file for further improvements I made to this setup.
 <img width="347" height="60" alt="ascii-text-art" src="https://github.com/user-attachments/assets/31c85762-1168-4995-85eb-49cba946a5ba" />
 
 
-My aim for this improvement is to be able to access the OMV NAS from anywhere on any network, not just my own. To do this requries the use of a VPN Tunnel such as Tailacale which I will be using. However in my specific case my NAS is set up on a WiFi 
+My aim for this improvement is to be able to access the OMV NAS from anywhere on any network, not just my own. To do this requries the use of a VPN Tunnel such as Tailascale which I will be using. However in my specific case my NAS is set up on a WiFi 
 network that i do not have control over as it is controlled by my housing provider. To overcome this issue I have purchased a GL-iNet SFT1200 router that will take an internet connection in and broadcast my own private network out. It also allows me 
 full access to its admin control panel to set up services like port forwarding and firewalls. 
 
