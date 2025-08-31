@@ -52,3 +52,26 @@ address of the network folders to the new Tailscale IP address.
 
 After this step I once again have access to my shared folders, however this time they are accessible even when not on my local network.
 
+Now that the NAS is accesible anywhere I want it to have an easier to remember name than the IP address. I enabled magicDNS in my tailscale account
+and set the hostname of my device to an easy to remember one of my choosing. Now to access the dashboard you only have to type http://hostname into a browser.
+
+Finally to make sure that, in the case of a power cycle event, my NAS is still accessible I made sure tailscale was set to run on boot by checking:
+`systemctl status tailscaled` to check then `sudo systemctl enable tailscaled`. 
+
+Setting up system monitoring:
+
+I want to be able to monitor my system usage for the physical hardware and NAS remotely so I am setting up Netdata as a powerful monitor accessible via a 
+MagicDNS URL. 
+
+1. Install Netdata with  `bash <(curl -Ss https://my-netdata.io/kickstart.sh)`
+2. Configure Netdata to run on boot and start it
+3. Install OMV specific intergration with `sudo apt install netdata-plugin-openmediavault -y`
+4. Enable the service both on startup and immediately
+
+Now I can access the dashboard via its MagicDNS URL's remotely to check on the status of my PiNAS
+
+
+
+
+
+
